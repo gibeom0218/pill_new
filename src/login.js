@@ -47,7 +47,7 @@ export default function App() {
         <Link>Forgot Password?</Link>
         </Grid>
        <Grid item>      
-        <Link>회원가입</Link>
+        <Link href = '/resister'>회원가입</Link>
        </Grid>
       </Grid>
       </Box>
