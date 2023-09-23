@@ -5,6 +5,8 @@ import Home from './home'
 import Login from './login'
 import AddDrugForm from './addDrugForm'
 import Resister from './resister'
+import SearchDrugForm from './searchDrugForm'
+import PillEnrollList from './pillEnrollList'
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route path="/login" element={ <Login /> } />
           <Route path="/resister" element={ <Resister /> } />
           <Route path="/addDrugForm" element={ <AddDrugForm /> } />
+          <Route path="/searchDrugForm" element={ <SearchDrugForm /> } />
+          <Route path="/pillEnrollList" element={ <PillEnrollList /> } />
         </Routes>
       </Router>
     </div>

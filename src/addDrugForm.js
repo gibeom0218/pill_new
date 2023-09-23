@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography } from '@mui/material';
 import { registerDrug } from './api'; // API 함수를 가져옴 (약 등록)
 
-const addDrugForm = () => {
+const AddDrugForm = () => {
   const [drugName, setDrugName] = useState(''); // 약 이름 상태
 
   const handleDrugNameChange = (event) => {
@@ -42,4 +42,4 @@ const addDrugForm = () => {
   );
 };
 
-export default addDrugForm;
+export default AddDrugForm;
