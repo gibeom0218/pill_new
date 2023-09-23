@@ -6,13 +6,13 @@ function home() {
     function login(e){
         window.location.href="/login"
     }
-    function AddDrugForm(e){
-      window.location.href="/AddDrugForm"
+    function pillSearch(e){
+      window.location.href="/pillSearch"
   }
   return (
     <div>
         <Button onClick={login} variant="contained">로그인/회원가입 화면 버튼</Button>
-        <Button onClick={AddDrugForm} variant="contained">약 등록 화면 버튼</Button>
+        <Button onClick={pillSearch} variant="contained">약 등록 화면 버튼</Button>
         <Button variant="contained">약 검색 화면 버튼</Button>
         <Button variant="contained">약 체크리스트 화면</Button>
     </div>

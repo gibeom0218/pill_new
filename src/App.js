@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
 import Home from './home'
 import Login from './login'
-import AddDrugForm from './addDrugForm'
+import PillSearch from './pillSearch'
 import Resister from './resister'
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           <Route exact path="/" element={ <Home /> } />
           <Route path="/login" element={ <Login /> } />
           <Route path="/resister" element={ <Resister /> } />
-          <Route path="/addDrugForm" element={ <AddDrugForm /> } />
+          <Route path="/pillSearch" element={ <PillSearch /> } />
         </Routes>
       </Router>
     </div>
