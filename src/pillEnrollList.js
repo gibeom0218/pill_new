@@ -1,80 +1,96 @@
-import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { DeleteOutline } from '@mui/icons-material';
-import Typography from '@mui/material/Typography'; // Typography 컴포넌트를 추가
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Typography,
+  IconButton,
+  CircularProgress,
+} from '@mui/material';
+import { Image, Delete } from '@mui/icons-material';
 
-function DataTable() {
-  const [rows, setRows] = React.useState([
-    {
-      id: 1,
-      name: '약 이름 1',
-      image: '링크_1.jpg', // 이미지에 대한 링크 주소를 여기에 입력
-      info: '약에 대한 정보 1',
-    },
-    {
-      id: 2,
-      name: '약 이름 2',
-      image: '링크_2.jpg', // 이미지에 대한 링크 주소를 여기에 입력
-      info: '약에 대한 정보 2',
-    },
-    // 나머지 행 데이터도 비슷하게 추가
-  ]);
+function PillList() {
+  const [pillData, setPillData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: '약 이름', width: 200 },
-    {
-      field: 'image',
-      headerName: '약 이미지',
-      width: 200,
-      renderCell: (params) => {
-        // 이미지를 링크로 표시하는 예시
-        return <img src={params.value} alt="약 이미지" style={{ width: '100%', height: 'auto' }} />;
-      },
-    },
-    { field: 'info', headerName: '약 관련 정보', width: 300 },
-    {
-      field: 'action',
-      headerName: '제거',
-      width: 150,
-      renderCell: (params) => {
-        const handleDeleteClick = () => {
-          // 휴지통 버튼을 클릭했을 때 해당 행을 삭제하는 함수
-          // rows 상태를 업데이트하는 예시
-          setRows((prevRows) => prevRows.filter((row) => row.id !== params.row.id));
-        };
+  useEffect(() => {
+    // Axios를 사용하여 데이터 가져오기
+    axios
+      .get('http://110.12.181.206:8081/pillEnrollList')
+      .then((response) => {
+        setPillData(response.data);
+        setLoading(false);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
-        return (
-          <>
-            <button className='userListDelete' onClick={handleDeleteClick}>
-              <DeleteOutline />
-            </button>
-          </>
-        );
-      },
-    },
-  ];
+  const handleDelete = (index) => {
+    // 삭제 요청을 보내고, 성공하면 해당 항목을 제거
+    axios
+      .delete(`http://110.12.181.206:8081/deletePill/${pillData[index].pillCode}`)
+      .then(() => {
+        const updatedPillData = [...pillData];
+        updatedPillData.splice(index, 1);
+        setPillData(updatedPillData);
+      })
+      .catch((error) => {
+        console.error('Error deleting pill:', error);
+      });
+  };
+
+  const openImageInNewWindow = (image) => {
+    const newWindow = window.open('', '_blank');
+    newWindow.document.write(`<html><body><img src="${image}" /></body></html>`); //이미지를 클릭했을때 새창이 띄워지는 코드
+  };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
-      <Typography variant="h4" style={{ textAlign: 'center', margin: '20px' }}>
-        나만의 알약 등록리스트
+      <Typography variant="h5" gutterBottom>
+        나만의 약 등록 리스트
       </Typography>
-      <div style={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-        />
-      </div>
+      <List>
+        {pillData.pillList.map((pill, index) => (
+          <ListItem key={index}>
+            <ListItemAvatar>
+              <Avatar>
+                {pill.itemImage ? (
+                  <img
+                    src={pill.itemImage}
+                    alt={pill.pillName}
+                    style={{ width: '100%', height: '100%' }}
+                    onClick={() => openImageInNewWindow(pill.itemImage)}
+                  />
+                ) : (
+                  <Image />
+                )}
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={pill.pillName} secondary={`약 코드: ${pill.pillCode}`} />
+            <IconButton onClick={() => handleDelete(index)} aria-label="delete">
+              <Delete />
+            </IconButton>
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 }
 
-export default DataTable;
+export default PillList;
