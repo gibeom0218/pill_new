@@ -6,6 +6,9 @@ import Login from './login'
 import PillSearch from './pillSearch'
 import Register from './register'
 import PillEnrollList from './pillEnrollList'
+import PillSpec from './pillSpec'
+
+
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
           <Route path="/register" element={ <Register /> } />
           <Route path="/pillSearch" element={ <PillSearch /> } />
           <Route path="/pillEnrollList" element={ <PillEnrollList /> } />
+          <Route path="/pillSpec/:pillCode" element={ <PillSpec /> } />
+        
+          
         </Routes>
       </Router>
     </div>
