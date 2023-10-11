@@ -30,7 +30,7 @@ const PillSearchPage = () => {
   };
 
   const handleViewPillSpec = (pillCode) => {
-    const url = `http://example.com/pillSpec/${pillCode}`;
+    const url = `/pillSpec/${pillCode}`;
     window.open(url, '_blank');
   };
 
