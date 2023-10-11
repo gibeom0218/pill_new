@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { TextField, Button, Typography, List, ListItem, ListItemText, Grid } from '@mui/material';
 
 const PillSearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,18 +16,22 @@ const PillSearchPage = () => {
   
     try {
       const response = await axios.get(`http://110.12.181.206:8081/pillSearch?pillName=${searchTerm}`);
-      console.log('Server Response:', response.data);
       const { success, pillList, errorMessage } = response.data;
       setSearchResults(pillList);
   
-      if (success) {
-        setSearchResults(pillList); // Set the pillList directly
-      } else {
+      if (!success) {
         console.error('Search failed:', errorMessage);
+        setRegisterStatus('검색에 실패했습니다.');
       }
     } catch (error) {
       console.error('Search failed:', error.message);
+      setRegisterStatus('검색에 실패했습니다.');
     }
+  };
+
+  const handleViewPillSpec = (pillCode) => {
+    const url = `http://example.com/pillSpec/${pillCode}`;
+    window.open(url, '_blank');
   };
 
   const handleRegister = async (pillCode) => {
@@ -52,11 +56,12 @@ const PillSearchPage = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h4">약 검색 및 등록 페이지</Typography>
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px', border: '1px solid #ccc' }}>
+      <Typography variant="h4" gutterBottom>
+        약 검색 및 등록 페이지
+      </Typography>
 
-      <div>
-        <Typography variant="h5">약 검색</Typography>
+      <div>       
         <form onSubmit={handleSearch}>
           <TextField
             label="약 이름 검색"
@@ -73,17 +78,33 @@ const PillSearchPage = () => {
       <div style={{ marginTop: '20px' }}>
         <Typography variant="h5">검색된 약 리스트</Typography>
         <List>
-        {searchResults.map((pill, index) => (
-          <ListItem key={index}>
-            <ListItemButton onClick={() => handleRegister(pill.pillCode)}>
-              <ListItemText
-                primary={pill.pillName}
-                secondary={`약 코드: ${pill.pillCode}`}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+          {searchResults.map((pill, index) => (
+            <ListItem key={index}>
+              <Grid container justifyContent="space-between">
+                <Grid item>
+                  <ListItemText
+                    primary={pill.pillName}
+                    secondary={`약 코드: ${pill.pillCode}`}
+                  />
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleViewPillSpec(pill.pillCode)}
+                  >
+                    약 정보
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleRegister(pill.pillCode)}
+                  >
+                    등록
+                  </Button>
+                </Grid>
+              </Grid>
+            </ListItem>
+          ))}
+        </List>
       </div>
 
       <div style={{ marginTop: '20px' }}>
