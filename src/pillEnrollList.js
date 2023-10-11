@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Typography,
-  IconButton,
-  CircularProgress,
-} from '@mui/material';
-import { Image, Delete } from '@mui/icons-material';
+import { List, ListItem, ListItemText, ListItemAvatar, Avatar, Typography, IconButton, CircularProgress } from '@mui/material';
+import { Image, Delete, Info } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 function PillList() {
   const [pillData, setPillData] = useState([]);
@@ -33,10 +25,10 @@ function PillList() {
       });
   }, []);
 
-  const handleDelete = (index) => {
-    // 삭제 요청을 보내고, 성공하면 해당 항목을 제거
+  const handleDelete = (index, pillCode) => {
+    // 삭제 요청을 POST로 보내고, 성공하면 해당 항목을 제거
     axios
-      .delete(`http://110.12.181.206:8081/deletePill/${pillData[index].pillCode}`)
+      .post('http://110.12.181.206:8081/deletePill', { pillCode })
       .then(() => {
         const updatedPillData = [...pillData];
         updatedPillData.splice(index, 1);
@@ -49,7 +41,7 @@ function PillList() {
 
   const openImageInNewWindow = (image) => {
     const newWindow = window.open('', '_blank');
-    newWindow.document.write(`<html><body><img src="${image}" /></body></html>`); //이미지를 클릭했을때 새창이 띄워지는 코드
+    newWindow.document.write(`<html><body><img src="${image}" /></body></html>`);
   };
 
   if (loading) {
@@ -83,7 +75,14 @@ function PillList() {
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={pill.pillName} secondary={`약 코드: ${pill.pillCode}`} />
-            <IconButton onClick={() => handleDelete(index)} aria-label="delete">
+            
+            <Link to={`/pillSpec/${pill.pillCode}`} style={{ textDecoration: 'none' }}>
+              <IconButton aria-label="details">
+                <Info />
+              </IconButton>
+            </Link>
+
+            <IconButton onClick={() => handleDelete(index, pill.pillCode)} aria-label="delete">
               <Delete />
             </IconButton>
           </ListItem>

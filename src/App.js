@@ -9,6 +9,7 @@ import PillEnrollList from './pillEnrollList'
 import PillSpec from './pillSpec'
 
 
+import PillMap from './pillMap'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/pillSpec/:pillCode" element={ <PillSpec /> } />
         
           
+          <Route path="/pillMap" element={ <PillMap /> } />
         </Routes>
       </Router>
     </div>

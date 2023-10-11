@@ -14,6 +14,35 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 
 export default function App() {
+  
+  const [formData, setFormData] = useState({
+    id: '',
+    pw: ''
+  });
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // 사용자의 입력 데이터를 formData 객체에서 가져와서 서버로 전송
+      const response = await axios.post("http://110.12.181.206:8081/login", formData);
+      console.log('서버 응답: ', response.data);
+
+      // 성공적으로 로그인 후 필요한 작업을 수행하세요
+    } catch (error) {
+      // 오류 처리
+      console.log(formData.id)
+      console.log(formData.pw)
+      console.error('로그인 오류: ', error);
+    }
+  };
   return (
     <Container component="main" maxWidth="xs">
        <Box
@@ -29,20 +58,30 @@ export default function App() {
         </Avatar>
        <Typography component="h1" variant="h5">
             Sign in
-          </Typography>
-      <TextField
-        margin = "normal" 
-        label="ID"  
-        required 
-        name="id"/> 
-      <TextField
-        margin = "normal"  
-        label="Password" 
-        type="password" 
-        required
-        name="password"/>
-      <FormControlLabel control={ <Checkbox value="remember" color="primary" />} label="Remember me"/>
-      <Button type="submit" fullWidth variant="contained" sx={{mt:3, mb:2}}>Sign in</Button>
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            margin="normal"
+            label="ID"
+            required
+            name="id"
+            value={formData.id}
+            onChange={handleFormChange}
+            sx={{ width: '70%' }} // TextField의 폭을 100%로 지정하여 정렬
+          />
+          <TextField
+            margin="normal"
+            label="PW"
+            type="pw"
+            required
+            name="pw"
+            value={formData.pw}
+            onChange={handleFormChange}
+            sx={{ width: '70%' }} // TextField의 폭을 100%로 지정하여 정렬
+          />
+          <FormControlLabel control={ <Checkbox value="remember" color="primary" />} label="Remember me"/>
+          <Button type="submit" fullWidth variant="contained" sx={{mt:3, mb:2}}>Sign in</Button>
+      </form>
       <Grid container>
        <Grid item xs>
         <Link>Forgot Password?</Link>
