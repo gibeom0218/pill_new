@@ -1,4 +1,6 @@
 {
+  
+  
   "name": "pill_front",
   "version": "0.1.0",
   "private": true,
@@ -7,7 +9,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
-    "@mui/x-data-grid": "^6.15.0",
+    "@mui/x-data-grid": "^6.16.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -45,4 +47,7 @@
       "last 1 safari version"
     ]
   }
+  
 }
+
+
