@@ -7,6 +7,7 @@ import PillSearch from './pillSearch'
 import Register from './register'
 import PillEnrollList from './pillEnrollList'
 import PillSpec from './pillSpec'
+import Main from './main'
 
 
 import PillMap from './pillMap'
@@ -25,6 +26,7 @@ function App() {
         
           
           <Route path="/pillMap" element={ <PillMap /> } />
+          <Route path="/main" element={ <Main /> } />
         </Routes>
       </Router>
     </div>

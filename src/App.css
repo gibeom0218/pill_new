@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.custom-card:hover {
+  border: 2px solid #61dafb; /* Border color on hover */
+  box-shadow: 0 0 10px rgba(97, 218, 251, 0.5); /* Box shadow on hover */
+}
