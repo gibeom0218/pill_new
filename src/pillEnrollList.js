@@ -12,7 +12,11 @@ function PillList() {
   useEffect(() => {
     // Axios를 사용하여 데이터 가져오기
     axios
-      .get('http://110.12.181.206:8081/pillEnrollList')
+      .get('http://110.12.181.206:8081/pillEnrollList', {
+        params: {
+          id: 'example_id'
+        }
+      })
       .then((response) => {
         setPillData(response.data);
         setLoading(false);
@@ -24,11 +28,10 @@ function PillList() {
         console.error('Error fetching data:', error);
       });
   }, []);
-
-  const handleDelete = (index, pillCode) => {
+  const handleDelete = (index, itemSeq) => {
     // 삭제 요청을 POST로 보내고, 성공하면 해당 항목을 제거
     axios
-      .post('http://110.12.181.206:8081/deletePill', { pillCode })
+      .post('http://110.12.181.206:8081/deletePillEnroll', { id: 'example_id', itemSeq })
       .then(() => {
         const updatedPillData = [...pillData];
         updatedPillData.splice(index, 1);
@@ -38,6 +41,7 @@ function PillList() {
         console.error('Error deleting pill:', error);
       });
   };
+  
 
   const openImageInNewWindow = (image) => {
     const newWindow = window.open('', '_blank');
@@ -65,7 +69,7 @@ function PillList() {
                 {pill.itemImage ? (
                   <img
                     src={pill.itemImage}
-                    alt={pill.pillName}
+                    alt={pill.itemName}
                     style={{ width: '100%', height: '100%' }}
                     onClick={() => openImageInNewWindow(pill.itemImage)}
                   />
@@ -74,15 +78,15 @@ function PillList() {
                 )}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={pill.pillName} secondary={`약 코드: ${pill.pillCode}`} />
+            <ListItemText primary={pill.itemName} secondary={`약 코드: ${pill.itemSeq}`} />
             
-            <Link to={`/pillSpec/${pill.pillCode}`} style={{ textDecoration: 'none' }}>
+            <Link to={`/pillSpec/${pill.itemSeq}`} style={{ textDecoration: 'none' }}>
               <IconButton aria-label="details">
                 <Info />
               </IconButton>
             </Link>
 
-            <IconButton onClick={() => handleDelete(index, pill.pillCode)} aria-label="delete">
+            <IconButton onClick={() => handleDelete(index, pill.itemSeq)} aria-label="delete">
               <Delete />
             </IconButton>
           </ListItem>

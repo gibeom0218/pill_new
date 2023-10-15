@@ -33,8 +33,8 @@ class KakaoMap extends Component {
                     place.y,
                     place.x
                   );
-                  const width = 38; // 마커 이미지의 너비
-                  const height = 38; // 마커 이미지의 높이
+                  const width = 80; // 마커 이미지의 너비
+                  const height = 80; // 마커 이미지의 높이
 
                   const options = {
                     alt: 'Custom marker image', // 대체 텍스트
@@ -91,7 +91,7 @@ class KakaoMap extends Component {
       customOverlay = new window.kakao.maps.CustomOverlay({
         content: overlayContent,
         position: marker.getPosition(), // 마커 위치로 설정
-        yAnchor: 1.3, // 오버레이 위치를 마커 아이콘의 하단으로 설정
+        yAnchor: 1.6, // 오버레이 위치를 마커 아이콘의 하단으로 설정
       });
 
       customOverlay.setMap(map);
