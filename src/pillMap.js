@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+import './pillMap.css';
 
 class KakaoMap extends Component {
   componentDidMount() {
-    // Kakao Map SDK 로드
+    let map; // map 변수를 전역 범위에서 정의
+    let customOverlay = null; // 오버레이 객체를 null로 초기화
+
     window.kakao.maps.load(() => {
       const container = document.getElementById('kakao-map');
-      const map = new window.kakao.maps.Map(container, {
-        center: new window.kakao.maps.LatLng(0, 0), // 초기 중심 좌표
-        level: 3, // 지도 확대 레벨
+      map = new window.kakao.maps.Map(container, {
+        center: new window.kakao.maps.LatLng(0, 0),
+        level: 3,
       });
 
-      // 사용자의 현재 위치를 가져와 지도 중심 설정
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -20,12 +22,10 @@ class KakaoMap extends Component {
             );
             map.setCenter(userLatLng);
 
-            // '약' 키워드로 약국 검색
-            const keyword = '약국';
+            const category = 'PM9'; // 약국 카테고리 코드
             const ps = new window.kakao.maps.services.Places();
 
-            // 'keywordSearch' 메서드를 사용하여 검색
-            ps.keywordSearch(keyword, (data, status, pagination) => {
+            ps.categorySearch(category, (data, status, pagination) => {
               if (status === window.kakao.maps.services.Status.OK) {
                 for (let i = 0; i < data.length; i++) {
                   const place = data[i];
@@ -33,18 +33,37 @@ class KakaoMap extends Component {
                     place.y,
                     place.x
                   );
-            
-                  const pharmacyMarker = new window.kakao.maps.Marker({
+                  const width = 38; // 마커 이미지의 너비
+                  const height = 38; // 마커 이미지의 높이
+
+                  const options = {
+                    alt: 'Custom marker image', // 대체 텍스트
+                    clickable: true, // 마커를 클릭 가능하도록 설정
+                    zIndex: 3, // 마커의 Z 인덱스
+                  };
+                  
+
+
+                  const marker = new window.kakao.maps.Marker({
                     map,
                     position: placeLatLng,
                     title: place.place_name,
+                    image: new window.kakao.maps.MarkerImage(
+                      '/pharmacy.png', // 이미지 파일 경로로 변경
+                      new window.kakao.maps.Size(width, height),
+                      options
+                    ),
+                  });
+
+                  window.kakao.maps.event.addListener(marker, 'click', function () {
+                    displayPlaceInfo(place, marker);
                   });
                 }
               }
             }, {
-              radius: 5000 // 5km 반경 내에서 검색
+              location: userLatLng,
+              radius: 5000,
             });
-            
           },
           (error) => {
             console.error('위치 정보를 가져오는데 실패했습니다.', error);
@@ -53,12 +72,36 @@ class KakaoMap extends Component {
         );
       }
     });
+
+    function displayPlaceInfo(place, marker) {
+      // 이전 오버레이 삭제
+      if (customOverlay) {
+        customOverlay.setMap(null);
+      }
+
+      const overlayContent = `
+        <div class="custom-overlay">
+          <h3>${place.place_name}</h3>
+          <p>주소: ${place.address_name}</p>
+          <p>전화번호: ${place.phone}</p>
+          <p>상세정보: <a href="${place.place_url}" target="_blank">${place.place_name} 바로가기</a></p>
+        </div>
+      `;
+
+      customOverlay = new window.kakao.maps.CustomOverlay({
+        content: overlayContent,
+        position: marker.getPosition(), // 마커 위치로 설정
+        yAnchor: 1.3, // 오버레이 위치를 마커 아이콘의 하단으로 설정
+      });
+
+      customOverlay.setMap(map);
+    }
   }
 
   render() {
     return (
       <div>
-        <h1 style={{ textAlign: 'center', fontSize: '24px', margin: '20px 0' }}>
+        <h1 style={{ textAlign: 'center', fontSize: '32px', margin: '20px 0' }}>
           내 근처 약국
         </h1>
         <div id="kakao-map" style={{ width: '100%', height: '800px' }}></div>
