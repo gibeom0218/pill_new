@@ -22,7 +22,7 @@ function App() {
           <Route path="/register" element={ <Register /> } />
           <Route path="/pillSearch" element={ <PillSearch /> } />
           <Route path="/pillEnrollList" element={ <PillEnrollList /> } />
-          <Route path="/pillSpec/:pillName" element={ <PillSpec /> } />
+          <Route path="/pillSpec/:pillCode" element={ <PillSpec /> } />
         
           
           <Route path="/pillMap" element={ <PillMap /> } />
