@@ -29,15 +29,15 @@ const PillSearchPage = () => {
     }
   };
 
-  const handleViewPillSpec = (pillCode) => {
-    const url = `/pillSpec/${pillCode}`;
+  const handleViewPillSpec = (itemSeq) => {
+    const url = `/pillSpec/${itemSeq}`;
     window.open(url, '_blank');
   };
 
-  const handleRegister = async (pillCode) => {
+  const handleRegister = async (itemSeq) => {
     const data = {
       id: 'example_id',
-      pillCode,
+      itemSeq,
     };
 
     try {

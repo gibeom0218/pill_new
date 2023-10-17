@@ -12,7 +12,11 @@ function PillList() {
   useEffect(() => {
     // Axios를 사용하여 데이터 가져오기
     axios
-      .get('http://110.12.181.206:8081/pillEnrollList')
+      .get('http://110.12.181.206:8081/pillEnrollList', {
+        params: {
+          id: 'example_id'
+        }
+      })
       .then((response) => {
         setPillData(response.data);
         setLoading(false);
@@ -25,10 +29,10 @@ function PillList() {
       });
   }, []);
 
-  const handleDelete = (index, pillCode) => {
+  const handleDelete = (index, itemSeq) => {
     // 삭제 요청을 POST로 보내고, 성공하면 해당 항목을 제거
     axios
-      .post('http://110.12.181.206:8081/deletePill', { pillCode })
+      .post('http://110.12.181.206:8081/deletePillEnroll', { id: 'example_id', itemSeq })
       .then(() => {
         const updatedPillData = [...pillData];
         updatedPillData.splice(index, 1);
@@ -37,6 +41,8 @@ function PillList() {
       .catch((error) => {
         console.error('Error deleting pill:', error);
       });
+
+    window.location.reload();
   };
 
   const openImageInNewWindow = (image) => {
@@ -53,38 +59,42 @@ function PillList() {
   }
 
   return (
-    <div>
-      <Typography variant="h5" gutterBottom>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Typography variant="h4" gutterBottom>
         나만의 약 등록 리스트
       </Typography>
-      <List>
+      <List style={{ width: '30%' }}>
         {pillData.pillList.map((pill, index) => (
-          <ListItem key={index}>
-            <ListItemAvatar>
-              <Avatar>
-                {pill.itemImage ? (
-                  <img
-                    src={pill.itemImage}
-                    alt={pill.pillName}
-                    style={{ width: '100%', height: '100%' }}
-                    onClick={() => openImageInNewWindow(pill.itemImage)}
-                  />
-                ) : (
-                  <Image />
-                )}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={pill.pillName} secondary={`약 코드: ${pill.pillCode}`} />
-            
-            <Link to={`/pillSpec/${pill.pillCode}`} style={{ textDecoration: 'none' }}>
-              <IconButton aria-label="details">
-                <Info />
-              </IconButton>
-            </Link>
+          <ListItem key={index} style={{ margin: '10px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '3px solid #ccc', padding: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ListItemAvatar>
+                <Avatar>
+                  {pill.itemImage ? (
+                    <img
+                      src={pill.itemImage}
+                      alt={pill.itemName}
+                      style={{ width: '100%', height: '100%' }}
+                      onClick={() => openImageInNewWindow(pill.itemImage)}
+                    />
+                  ) : (
+                    <Image />
+                  )}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={pill.itemName} secondary={`약 코드: ${pill.itemSeq}`} />
+            </div>
 
-            <IconButton onClick={() => handleDelete(index, pill.pillCode)} aria-label="delete">
-              <Delete />
-            </IconButton>
+            <div style={{ display: 'flex' }}>
+              <Link to={`/pillSpec/${pill.itemSeq}`} style={{ textDecoration: 'none' }}>
+                <IconButton aria-label="details">
+                  <Info />
+                </IconButton>
+              </Link>
+
+              <IconButton onClick={() => handleDelete(index, pill.itemSeq)} aria-label="delete">
+                <Delete />
+              </IconButton>
+            </div>
           </ListItem>
         ))}
       </List>
