@@ -32,9 +32,15 @@ const cards = [
   },
   {
     title: '약국 지도',
-    description: '사용자 주변 약을 구매할수 있는 약국과 편의점을 보여줍니다.',
+    description: '사용자 주변 약을 구매할수 있는 약국을 보여줍니다.',
     image: '/3.png',
     link: '/pillMap'
+  },
+  {
+    title: '체크리스트',
+    description: '사용자가 약을 복용했는지 체크.',
+    image: '/4.png',
+    link: '/pillChk'
   },
 ];
 
