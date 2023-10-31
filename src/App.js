@@ -8,6 +8,7 @@ import Register from './register'
 import PillEnrollList from './pillEnrollList'
 import PillSpec from './pillSpec'
 import Main from './main'
+import PillChk from './pillChk'
 
 
 import PillMap from './pillMap'
@@ -22,7 +23,7 @@ function App() {
           <Route path="/register" element={ <Register /> } />
           <Route path="/pillSearch" element={ <PillSearch /> } />
           <Route path="/pillEnrollList" element={ <PillEnrollList /> } />
-          <Route path="/pillSpec/:itemSeq" element={ <PillSpec /> } />
+          <Route path="/pillSpec/:pillName" element={ <PillSpec /> } />
         
           
           <Route path="/pillMap" element={ <PillMap /> } />
