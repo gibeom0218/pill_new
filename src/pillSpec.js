@@ -6,19 +6,23 @@ import './pillSpec.css' // Import a CSS file for styling (you should create this
 
 function PillSpec() {
   const [data, setData] = useState({});
-  const { pillName } = useParams(); // useParams 훅을 사용하여 URL에서 pillCode를 가져옵니다.
+  const { itemSeq } = useParams();
 
   useEffect(() => {
-    // 서버에서 데이터를 가져오는 요청
-    axios.get(`http://110.12.181.206:8081/pillSpec/?pillName=${pillName}`)
-      .then(response => {
-        console.log(response.data);// 서버에서 받아온 데이터를 상태에 저장
+    axios
+      .get(`http://110.12.181.206:8081/pillSpec/?itemSeq=${itemSeq}`)
+      .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error('데이터를 받아오는 중 오류 발생:', error);
       });
-  }, [pillName]); // pillCode가 변경될 때마다 useEffect가 다시 실행됩니다.
+  }, [itemSeq]);
+
+  const openImageInNewWindow = (image) => {
+    const newWindow = window.open('', '_blank');
+    newWindow.document.write(`<html><body><img src="${image}" /></body></html>`);
+  };
 
   return (
     <div className="pill-spec-container">
