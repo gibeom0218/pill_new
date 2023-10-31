@@ -1,28 +1,28 @@
 /* PillSpec.css */
 .left-aligned {
-    text-align: left;
-    
-    /* You can add additional styles here if needed */
-  }
-
-
+  text-align: left;
   
-  .jb-division-line {
-    border-top: 1px solid #AAAAAA;
-    margin: 30px 0px;
-  }
+  /* You can add additional styles here if needed */
+}
 
-  .larger-text {
-    font-size: 2.5em; /* 필요에 따라 글꼴 크기를 조절하세요 */
-  }
 
-  .pill-spec-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    padding: 20px;
-    margin-right: 250px;
-    margin-left: 250px;
-    border: 2px solid #ccc; /* 테두리 스타일을 설정합니다. */
-    border-radius: 5px; /* 테두리를 둥글게 만듭니다. */
-  }
+
+.jb-division-line {
+  border-top: 1px solid #AAAAAA;
+  margin: 30px 0px;
+}
+
+.larger-text {
+  font-size: 2.5em; /* 필요에 따라 글꼴 크기를 조절하세요 */
+}
+
+.pill-spec-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  padding: 20px;
+  margin-right: 250px;
+  margin-left: 250px;
+  border: 2px solid #ccc; /* 테두리 스타일을 설정합니다. */
+  border-radius: 5px; /* 테두리를 둥글게 만듭니다. */
+}
