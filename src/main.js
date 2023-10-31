@@ -36,6 +36,12 @@ const cards = [
     image: '/3.png',
     link: '/pillMap'
   },
+  {
+    title: '체크리스트',
+    description: '사용자가 약을 복용했는지 체크.',
+    image: '/4.png',
+    link: '/pillChk'
+  },
 ];
 
 const defaultTheme = createTheme();
