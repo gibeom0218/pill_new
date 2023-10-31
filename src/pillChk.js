@@ -19,16 +19,22 @@ function MyCalendar() {
       '쇼핑 가기',
     ];
 
-    const randomTodoList = [];
-    for (let i = 0; i < 3; i++) {
-      const randomIndex = Math.floor(Math.random() * randomTodos.length);
-      randomTodoList.push(randomTodos[randomIndex]);
-    }
+    const randomTodoList = randomTodos.map((todo) => ({
+      text: todo,
+      morning: false,
+      lunch: false,
+      dinner: false,
+    }));
 
     setTodoList(randomTodoList);
   };
 
-  // 날짜를 한글로 변환하는 함수
+  const toggleTodo = (index, time) => {
+    const updatedTodoList = [...todoList];
+    updatedTodoList[index][time] = !updatedTodoList[index][time];
+    setTodoList(updatedTodoList);
+  };
+
   const formatKoreanDate = (date) => {
     return date.toLocaleDateString('ko-KR', {
       year: 'numeric',
@@ -37,22 +43,49 @@ function MyCalendar() {
     });
   };
 
+  const handleSaveClick = () => {
+    // 이곳에 저장 로직을 추가
+    alert('저장되었습니다.'); // 예시 메시지
+  };
+
   return (
     <div className="calendar-container">
       <div className="calendar">
-        <Calendar
-          onChange={onChange}
-          value={date}
-          className="custom-calendar"
-        />
+        <Calendar onChange={onChange} value={date} className="custom-calendar" />
       </div>
       <div className="todo-list">
-        <h2>{formatKoreanDate(date)} 체크리스트</h2>
+        <h2>체크리스트</h2>
         <ul>
           {todoList.map((todo, index) => (
-            <li key={index}>{todo}</li>
+            <li key={index}>
+              <input
+                type="checkbox"
+                checked={todo.morning}
+                onChange={() => toggleTodo(index, 'morning')}
+              />
+              <span className={todo.morning ? 'completed' : ''}>아침</span>
+              <input
+                type="checkbox"
+                checked={todo.lunch}
+                onChange={() => toggleTodo(index, 'lunch')}
+              />
+              <span className={todo.lunch ? 'completed' : ''}>점심</span>
+              <input
+                type="checkbox"
+                checked={todo.dinner}
+                onChange={() => toggleTodo(index, 'dinner')}
+              />
+              <span className={todo.dinner ? 'completed' : ''}>저녁</span>
+              {todo.text}
+            </li>
           ))}
         </ul>
+        <p className="small-date">
+          날짜: {formatKoreanDate(date)}
+        </p>
+        <button className="save-button" onClick={handleSaveClick}>
+          저장
+        </button>
       </div>
     </div>
   );
