@@ -13,12 +13,12 @@ const PillSearchPage = () => {
 
   const handleSearch = async (event) => {
     event.preventDefault();
-  
+
     try {
       const response = await axios.get(`http://110.12.181.206:8081/pillSearch?pillName=${searchTerm}`);
       const { success, pillList, errorMessage } = response.data;
       setSearchResults(pillList);
-  
+
       if (!success) {
         console.error('Search failed:', errorMessage);
         setRegisterStatus('검색에 성공했습니다.');
@@ -42,13 +42,15 @@ const PillSearchPage = () => {
 
     try {
       const response = await axios.post('http://110.12.181.206:8081/pillEnroll', data);
-      alert('등록이 완료되었습니다.');
-      const { success, successMessage, errorMessage } = response.data;
 
-      if (success) {
-        setRegisterStatus(`Success: ${successMessage}`);
+      if (response.data === 'OK') {
+        alert('등록이 완료되었습니다.');
+        setRegisterStatus('Success: 등록이 완료되었습니다.');
+      } else if (response.data === 'COMBINED') {
+        alert('병용 금기 약물 입니다.');
+        setRegisterStatus('Failure: 병용 금기 약물 입니다.');
       } else {
-        setRegisterStatus(`Failure: ${errorMessage}`);
+        // Handle other responses or errors as needed
       }
     } catch (error) {
       console.error('Registration failed:', error.message);
@@ -63,7 +65,7 @@ const PillSearchPage = () => {
         약 검색 및 등록 페이지
       </Typography>
 
-      <div>       
+      <div>
         <form onSubmit={handleSearch}>
           <TextField
             label="약 이름 검색"

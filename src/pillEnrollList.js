@@ -29,10 +29,10 @@ function PillList() {
       });
   }, []);
 
-  const handleDelete = (index, itemSeq) => {
+  const handleDelete = (index, ediCode) => {
     // 삭제 요청을 POST로 보내고, 성공하면 해당 항목을 제거
     axios
-      .post('http://110.12.181.206:8081/deletePillEnroll', { id: 'example_id', itemSeq })
+      .post('http://110.12.181.206:8081/deletePillEnroll', { id: 'example_id', ediCode })
       .then(() => {
         const updatedPillData = [...pillData];
         updatedPillData.splice(index, 1);
@@ -72,7 +72,7 @@ function PillList() {
                   {pill.itemImage ? (
                     <img
                       src={pill.itemImage}
-                      alt={pill.itemName}
+                      alt={pill.ITEM_NAME}
                       style={{ width: '100%', height: '100%' }}
                       onClick={() => openImageInNewWindow(pill.itemImage)}
                     />
@@ -81,17 +81,17 @@ function PillList() {
                   )}
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={pill.itemName} secondary={`약 코드: ${pill.itemSeq}`} />
+              <ListItemText primary={pill.ITEM_NAME} secondary={`약 코드: ${pill.EDI_CODE}`} />
             </div>
 
             <div style={{ display: 'flex' }}>
-              <Link to={`/pillSpec/${pill.itemSeq}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/pillSpec/${pill.EDI_CODE}`} style={{ textDecoration: 'none' }}>
                 <IconButton aria-label="details">
                   <Info />
                 </IconButton>
               </Link>
 
-              <IconButton onClick={() => handleDelete(index, pill.itemSeq)} aria-label="delete">
+              <IconButton onClick={() => handleDelete(index, pill.EDI_CODE)} aria-label="delete">
                 <Delete />
               </IconButton>
             </div>
