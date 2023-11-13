@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Button, Typography, AppBar, Toolbar } from '@mui/material';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Import the MedicalServicesIcon
 import './pillMap.css';
 
 class KakaoMap extends Component {
@@ -101,10 +103,46 @@ class KakaoMap extends Component {
   render() {
     return (
       <div>
-        <h1 style={{ textAlign: 'center', fontSize: '32px', margin: '20px 0' }}>
+        <AppBar position="relative" sx={{ background: '#663399' }}>
+        <Toolbar>
+          <MedicalServicesIcon sx={{ mr: 4 }} />
+          <Typography variant="h4" color="inherit" noWrap fontWeight={'bold'}>
+            PillBOX
+          </Typography>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold'}}color="inherit" onClick={() => { window.location.href = '/' }}>홈페이지</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillSearch' }}>검색 및 등록</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillEnrollList' }}>약 목록</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillMap' }}>약국 지도</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillChk' }}>체크리스트</Button>
+          <Button
+            variant="contained"
+            sx={{
+                marginLeft: '280px',
+                width: '70px', // 원하는 너비
+                height: '30px',   // 원하는 높이
+                fontWeight: 'bold',
+                background: '#FFFFFF',
+                color :'#000000'
+            }}
+            onClick={() => {
+                // 원하는 링크로 이동
+                window.location.href = '/login';
+              }}
+            >
+            LOGIN
+          </Button>  
+        </Toolbar>
+      </AppBar>
+      <br></br>
+        <h1 style={{ textAlign: 'center', fontSize: '35px', margin: '20px 0', fontWeight: 'bold' }}>
           내 근처 약국
         </h1>
-        <div id="kakao-map" style={{ width: '100%', height: '800px' }}></div>
+        <div id="kakao-map" style={{ width: '100%', height: '750px' }}></div>
       </div>
     );
   }

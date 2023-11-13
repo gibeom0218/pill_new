@@ -77,12 +77,39 @@ export default function Album() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar position="relative">
+      <AppBar position="relative" sx={{ background: '#663399' }}>
         <Toolbar>
-          <MedicalServicesIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Welcome
+          <MedicalServicesIcon sx={{ mr: 4 }} />
+          <Typography variant="h4" color="inherit" noWrap fontWeight={'bold'}>
+            PillBOX
           </Typography>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold'}}color="inherit" onClick={() => { window.location.href = '/' }}>홈페이지</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillSearch' }}>검색 및 등록</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillEnrollList' }}>약 목록</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillMap' }}>약국 지도</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillChk' }}>체크리스트</Button>
+          <Button
+            variant="contained"
+            sx={{
+                marginLeft: '280px',
+                width: '70px', // 원하는 너비
+                height: '30px',   // 원하는 높이
+                fontWeight: 'bold',
+                background: '#FFFFFF',
+                color :'#000000'
+            }}
+            onClick={() => {
+                // 원하는 링크로 이동
+                window.location.href = '/login';
+              }}
+            >
+            LOGIN
+        </Button>  
         </Toolbar>
       </AppBar>
       <main>
@@ -100,24 +127,13 @@ export default function Album() {
               align="center"
               color="text.primary"
               gutterBottom
+              fontWeight={'bold'}
             >
-              PILL BOX(미정)
+              나만의 PILL BOX
             </Typography>
           </Container>
         </Box>
-        <Button
-            variant="contained"
-            sx={{
-                width: '100px', // 원하는 너비
-                height: '50px'   // 원하는 높이
-            }}
-            onClick={() => {
-                // 원하는 링크로 이동
-                window.location.href = '/login';
-              }}
-            >
-            Sign in
-        </Button>  
+        
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {cards.map((card, index) => (

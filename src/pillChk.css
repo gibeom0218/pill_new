@@ -76,6 +76,7 @@
 .todo-list li {
     display: flex;
     align-items: center; /* 가운데 정렬을 위해 추가 */
+    justify-content: space-between; /* 체크박스의 오른쪽 정렬을 위해*/
     margin-bottom: 40px;
     padding: 10px; /* 각 항목 주변에 여백을 추가 */
     border: 3px solid #ccc; /* 항목 간 경계선 추가 */
@@ -85,15 +86,16 @@
   }
   
 .todo-list input[type="checkbox"] {
-    margin-right: 10px;
+    margin-left: 10px;
     /* 왼쪽 정렬을 위해 추가 */
+    margin-right: 10px;
     transform: scale(2); /* 원하는 크기로 조절 */
   }
   
 .todo-list span {
     flex: 1; /* 텍스트를 가운데 정렬하기 위해 추가 */
-    font-size: 18px; /* 원하는 크기로 조절 */
-    margin-right: 50px;
+    font-size: 20px; /* 원하는 크기로 조절 */
+    margin-right: 20px;
     font-weight: bold;
   }
 
@@ -115,4 +117,12 @@
     border-radius: 5px;
     cursor: pointer; /* 커서를 포인터로 변경하여 버튼으로 인식하도록 함 */
     font-weight: bold;
+}
+
+
+
+.todo-list .checkbox-label {
+  display: flex;
+  align-items: right;
+  margin-right: 10px; /* 원하는 간격 설정 */
 }

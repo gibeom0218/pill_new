@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
+import {Button, Typography, AppBar, Toolbar } from '@mui/material';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Import the MedicalServicesIcon
 import 'react-calendar/dist/Calendar.css';
 import './pillChk.css';
 
@@ -49,6 +51,42 @@ function MyCalendar() {
   };
 
   return (
+  <div>
+    <AppBar position="relative" sx={{ background: '#663399' }}>
+        <Toolbar>
+          <MedicalServicesIcon sx={{ mr: 4 }} />
+          <Typography variant="h4" color="inherit" noWrap fontWeight={'bold'}>
+            PillBOX
+          </Typography>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold'}}color="inherit" onClick={() => { window.location.href = '/' }}>홈페이지</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillSearch' }}>검색 및 등록</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillEnrollList' }}>약 목록</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillMap' }}>약국 지도</Button>
+          <Button 
+            sx={{marginLeft: '150px',fontSize: '18px',fontWeight: 'bold',}}color="inherit" onClick={() => { window.location.href = '/pillChk' }}>체크리스트</Button>
+          <Button
+            variant="contained"
+            sx={{
+                marginLeft: '280px',
+                width: '70px', // 원하는 너비
+                height: '30px',   // 원하는 높이
+                fontWeight: 'bold',
+                background: '#FFFFFF',
+                color :'#000000'
+            }}
+            onClick={() => {
+                // 원하는 링크로 이동
+                window.location.href = '/login';
+              }}
+            >
+            LOGIN
+        </Button>  
+        </Toolbar>
+      </AppBar>
     <div className="calendar-container">
       <div className="calendar">
         <Calendar onChange={onChange} value={date} className="custom-calendar" />
@@ -58,6 +96,8 @@ function MyCalendar() {
         <ul>
           {todoList.map((todo, index) => (
             <li key={index}>
+              {(index+1)+'. ' + todo.text}
+              <div className="checkbox-label">
               <input
                 type="checkbox"
                 checked={todo.morning}
@@ -76,7 +116,7 @@ function MyCalendar() {
                 onChange={() => toggleTodo(index, 'dinner')}
               />
               <span className={todo.dinner ? 'completed' : ''}>저녁</span>
-              {todo.text}
+              </div>
             </li>
           ))}
         </ul>
@@ -88,6 +128,7 @@ function MyCalendar() {
         </button>
       </div>
     </div>
+  </div>
   );
 }
 
