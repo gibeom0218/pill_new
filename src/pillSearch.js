@@ -132,7 +132,7 @@ const PillSearchPage = () => {
                   <Grid item>
                     <Button
                       variant="outlined"
-                      onClick={() => handleViewPillSpec(pill.ITEM_SEQ)}
+                      onClick={() => handleViewPillSpec(pill.EDI_CODE)}
                     >
                       약 정보
                     </Button>

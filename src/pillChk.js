@@ -75,7 +75,7 @@ function MyCalendar() {
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularProgress/>;
   }
 
   if (error) {

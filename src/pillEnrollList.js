@@ -109,12 +109,12 @@ function PillList() {
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <ListItemAvatar>
                 <Avatar>
-                  {pill.itemImage ? (
+                  {pill.ITEM_IMAGE ? (
                     <img
-                      src={pill.itemImage}
+                      src={pill.ITEM_IMAGE}
                       alt={pill.ITEM_NAME}
                       style={{ width: '100%', height: '100%' }}
-                      onClick={() => openImageInNewWindow(pill.itemImage)}
+                      onClick={() => openImageInNewWindow(pill.ITEM_IMAGE)}
                     />
                   ) : (
                     <Image />

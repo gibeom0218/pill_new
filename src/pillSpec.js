@@ -69,12 +69,12 @@ function PillSpec() {
       <br></br>
     <div className="pill-spec-container">
       <h1 className="left-aligned larger-text">{data.ITEM_NAME}</h1>
-      {data.itemImage ? (
+      {data.ITEM_IMAGE ? (
         <img
-          src={data.itemImage}
+          src={data.ITEM_IMAGE}
           alt={data.ITEM_NAME}
           style={{ width: '50%', height: '100%' }}
-          onClick={() => openImageInNewWindow(data.itemImage)}
+          onClick={() => openImageInNewWindow(data.ITEM_IMAGE)}
           
         />
         
