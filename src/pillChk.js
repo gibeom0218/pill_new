@@ -1,34 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Calendar from 'react-calendar';
-import {Button, Typography, AppBar, Toolbar } from '@mui/material';
+import {Button, Typography, AppBar, Toolbar, CircularProgress } from '@mui/material';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Import the MedicalServicesIcon
 import 'react-calendar/dist/Calendar.css';
 import './pillChk.css';
 
 function MyCalendar() {
+  const [pillData, setPillData] = useState([]);
   const [date, setDate] = useState(new Date());
   const [todoList, setTodoList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Axios를 사용하여 데이터 가져오기
+    axios
+      .get('http://110.12.181.206:8081/pillEnrollList', {
+        params: {
+          id: 'example_id'
+        }
+      })
+      .then((response) => {
+        setPillData(response.data);
+        setLoading(false);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      });
+  }, []);
 
   const onChange = (newDate) => {
     setDate(newDate);
 
     // 랜덤 To-Do 항목 생성 (예제 데이터)
-    const randomTodos = [
-      '약 복용하기',
-      '스케줄 확인',
-      '회의 참석',
-      '운동하기',
-      '쇼핑 가기',
-    ];
+    // const randomTodos = [
+    //   '약 복용하기',
+    //   '스케줄 확인',
+    //   '회의 참석',
+    //   '운동하기',
+    //   '쇼핑 가기',
+    // ];
 
-    const randomTodoList = randomTodos.map((todo) => ({
-      text: todo,
+    const updatedTodoList = pillData.pillList.map((pill) => ({
+      text: pill.ITEM_NAME,
       morning: false,
       lunch: false,
       dinner: false,
     }));
-
-    setTodoList(randomTodoList);
+  
+    setTodoList(updatedTodoList);
   };
 
   const toggleTodo = (index, time) => {
@@ -49,6 +73,15 @@ function MyCalendar() {
     // 이곳에 저장 로직을 추가
     alert('저장되었습니다.'); // 예시 메시지
   };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
 
   return (
   <div>
