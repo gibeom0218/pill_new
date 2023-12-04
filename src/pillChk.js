@@ -12,6 +12,8 @@ function MyCalendar() {
   const [todoList, setTodoList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [recordOverlay, setRecordOverlay] = useState(false);
+  const [selectedPills, setSelectedPills] = useState([]);
 
   useEffect(() => {
     // Axios를 사용하여 데이터 가져오기
@@ -70,8 +72,47 @@ function MyCalendar() {
   };
 
   const handleSaveClick = () => {
-    // 이곳에 저장 로직을 추가
-    alert('저장되었습니다.'); // 예시 메시지
+    // 선택한 약들과 그에 따른 체크박스 상태를 추출합니다.
+    const selectedPills = todoList
+      .filter((todo) => todo.morning || todo.lunch || todo.dinner)
+      .map((todo) => ({
+        date: date, // 선택된 날짜 추가
+        name: todo.text,
+        morning: todo.morning,
+        lunch: todo.lunch,
+        dinner: todo.dinner,
+      }));
+  
+    // 선택한 약들과 체크박스 상태를 콘솔에 기록합니다.
+    console.log('선택한 약:', selectedPills);
+  
+    // 여기서는 데이터를 백엔드로 전송하거나 필요한 다른 동작을 수행할 수 있습니다.
+    // 예를 들어, axios를 사용하여 서버에 POST 요청을 보낼 수 있습니다.
+    // 'YOUR_BACKEND_ENDPOINT'를 실제 데이터를 저장하려는 엔드포인트로 교체하세요.
+  
+    // axios.post('YOUR_BACKEND_ENDPOINT', { selectedPills })
+    //   .then((response) => {
+    //     console.log('데이터가 성공적으로 저장되었습니다:', response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('데이터 저장 중 오류 발생:', error);
+    //   });
+  
+    // 사용자에게 선택한 약이 성공적으로 저장되었음을 나타내는 경고를 표시합니다.
+    alert('선택한 약이 저장되었습니다.');
+  };
+
+  const handleRecordClick = () => {
+    // 복용 기록 오버레이를 표시
+    //console.log(232323);
+    setRecordOverlay(true);
+    // 선택한 약들의 기록을 저장
+    setSelectedPills(selectedPills.concat(todoList));
+  };
+
+  const closeRecordOverlay = () => {
+    // 복용 기록 오버레이를 닫음
+    setRecordOverlay(false);
   };
 
   if (loading) {
@@ -159,8 +200,27 @@ function MyCalendar() {
         <button className="save-button" onClick={handleSaveClick}>
           저장
         </button>
+        &nbsp;&nbsp;
+        <button className="record-button" onClick={handleRecordClick}>
+          복용기록
+        </button>
       </div>
     </div>
+    {recordOverlay && (
+        <div className="record-overlay">
+          <div className="record-overlay-content">
+            <h2>복용 기록</h2>
+            <ul>
+              {selectedPills.map((pill, index) => (
+                <li key={index}>
+                  {`${index + 1}. ${pill.text} - 아침: ${pill.morning ? 'O' : 'X'}, 점심: ${pill.lunch ? 'O' : 'X'}, 저녁: ${pill.dinner ? 'O' : 'X'} (${formatKoreanDate(date)})`}
+                </li>
+              ))}
+            </ul>
+            <button onClick={closeRecordOverlay}>닫기</button>
+          </div>
+        </div>
+      )}
   </div>
   );
 }
