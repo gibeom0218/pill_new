@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import { useDropzone } from 'react-dropzone';
 
 
 var lastAddedEdiCode;
@@ -27,6 +28,7 @@ const PillSearchPage = () => {
   const [registerStatus, setRegisterStatus] = useState('');
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [confirmedRegistration, setConfirmedRegistration] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
@@ -53,6 +55,34 @@ const PillSearchPage = () => {
   const handleViewPillSpec = (itemSeq) => {
     const url = `/pillSpec/${itemSeq}`;
     window.open(url, '_blank');
+  };
+  const handleImageDrop = (acceptedFiles) => {
+    // 이미지가 여러 개일 경우에는 acceptedFiles 배열 사용
+    const selectedFile = acceptedFiles[0];
+    setSelectedImage(selectedFile);
+  };
+  
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: handleImageDrop,
+    accept: 'image/*', // 이미지 파일만 허용
+  });
+
+  const handleImageUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+
+      await axios.post('http://110.12.181.206:8081/api/uploadImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      alert('이미지 업로드 성공');
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error.message);
+      alert('이미지 업로드 실패');
+    }
   };
 
   const handleRegister = async (ediCode) => {
@@ -175,7 +205,25 @@ const PillSearchPage = () => {
             <Button variant="contained" color="primary" type="submit" sx={{ width: '80px', height: '55px' }}>
               검색
             </Button>
-          </form>
+            
+            <div {...getRootProps()} style={{ marginTop: '20px', border: '2px dashed #ccc', padding: '20px', textAlign: 'center', cursor: 'pointer' }}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <p>여기에 이미지를 놓아주세요!</p>
+      ) : (
+        <p>이미지를 끌어서 놓거나 클릭하여 이미지를 선택하세요.</p>
+      )}
+    </div>
+    {selectedImage && (
+      <div style={{ marginTop: '10px' }}>
+        <Typography variant="h6">선택한 이미지:</Typography>
+        <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+        <Button variant="contained" color="primary" onClick={handleImageUpload} style={{ marginTop: '10px' }}>
+          이미지 업로드
+        </Button>
+      </div>
+    )}
+  </form>
         </div>
 
         <div style={{ marginTop: '20px' }}>
